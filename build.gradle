@@ -20,7 +20,7 @@ test {
 }
 
 application {
-    mainClass.set('project.Menu')
+    mainClass.set('model.Menu')
 }
 
 run {
