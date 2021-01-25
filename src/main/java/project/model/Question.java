@@ -149,6 +149,22 @@ public class Question {
   }
 
   /**
+   * Método de instancia que retorna una respuesta de la lista de respuesta en el stack filtrada por id
+   * @param answerId ID de respuesta a buscar
+   * @return Respuesta filtrada
+   */
+  public Answer filterAnswerById(int answerId) {
+    Answer result = null;
+    for(Answer answer : answers) {
+      if (answer.getId() == answerId) {
+        result = answer;
+        break;
+      }
+    }
+    return result;
+  }
+
+  /**
    * Método de instancia que efectúa una sobreescritura sobre el método toString().
    * para especificar los atributos de la clase Pregunta.
    * @return String con formato concatenado.

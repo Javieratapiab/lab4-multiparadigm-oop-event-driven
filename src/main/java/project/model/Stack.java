@@ -98,6 +98,30 @@ public class Stack implements Auth {
   }
 
   /**
+   * Método de instancia público (setter) que setea usuarios dentro de un stack
+   * @param users Lista de usuarios
+   */
+  public void setUsers(List<User> users) {
+    this.users = users;
+  }
+
+  /**
+   * Método de instancia público (setter) que setea preguntas dentro de un stack
+   * @param questions Lista de preguntas
+   */
+  public void setQuestions(List<Question> questions) {
+    this.questions = questions;
+  }
+
+  /**
+   * Método de instancia público (setter) que setea etiquetas dentro del stack
+   * @param labels Lista de etiquetas
+   */
+  public void setLabels(List<Label> labels) {
+    this.labels = labels;
+  }
+
+  /**
    * Método de instancia privado y sobrecargado que permite si un usuario ya se encuentra registrado
    * @param name Nombre de usuario
    * @return boolean Retorna un booleano true si la operación fue realizada con éxito, de lo contrario, false.
@@ -205,6 +229,7 @@ public class Stack implements Auth {
    */
   public boolean accept(Question question, Answer answer) {
     if (userLogged == null) return false;
+    if (question.getStatus() == "Cerrada") return false;
     question.setStatus("Cerrada");
     answer.setAcceptationStatus("Sí");
     userLogged.addOrSubstractReputation(2);
@@ -284,16 +309,20 @@ public class Stack implements Auth {
     return result;
   }
 
-  public void setUsers(List<User> users) {
-    this.users = users;
-  }
-
-  public void setQuestions(List<Question> questions) {
-    this.questions = questions;
-  }
-
-  public void setLabels(List<Label> labels) {
-    this.labels = labels;
+  /**
+   * Método de instancia que retorna una pregunta de la lista de preguntas en el stack filtrada por id
+   * @param questionId ID de pregunta a buscar
+   * @return Pregunta filtrada
+   */
+  public Question filterQuestionById(int questionId) {
+    Question result = null;
+    for(Question question : questions) {
+      if (question.getId() == questionId) {
+        result = question;
+        break;
+      }
+    }
+    return result;
   }
 
   /**

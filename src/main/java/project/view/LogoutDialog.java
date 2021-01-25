@@ -1,6 +1,7 @@
 
 package project.view;
 
+// Imports
 import javax.swing.*;
 
 /**
@@ -11,7 +12,7 @@ class LogoutDialog extends JDialog {
   String FAILURE_MESSAGE = "El usuario no ha podido ser deslogueado. Inténtalo nuevamente.";
 
   /**
-   * Constructor de la vista (JDialog)
+   * Constructor de diálogo (modal) de Logout
    */
   public LogoutDialog() {
     boolean logoutSuccess = Main.currentStack.logout();

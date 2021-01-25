@@ -1,10 +1,14 @@
 package project.view;
 
+// IMPORTS
 import project.model.Question;
-
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+/**
+ * Clase que hereda de la clase abstracta Table model y permite la creación
+ * de una tabla referenciada a un modelo u clase.
+ */
 class QuestionsModelTable extends AbstractTableModel {
   private final List<Question> questions;
   private final String[] cols = {
@@ -20,6 +24,10 @@ class QuestionsModelTable extends AbstractTableModel {
 
   public QuestionsModelTable() {
     questions = Main.currentStack.getQuestions();
+  }
+
+  public QuestionsModelTable(List<Question> filteredQuestions) {
+    questions = filteredQuestions;
   }
 
   @Override

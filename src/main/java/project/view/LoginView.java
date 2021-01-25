@@ -66,7 +66,8 @@ class LoginView extends JPanel {
   }
 
   /**
-   * Método de instancia privado que genera un JButton de login, agregando un listener
+   * Método de instancia privado que genera un JButton de login
+   * y le agrega un listener a la acción sobre él.
    */
   private void buildLoginButton() {
     JButton loginButton = new JButton("Login");

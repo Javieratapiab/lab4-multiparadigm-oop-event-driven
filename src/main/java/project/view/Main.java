@@ -1,5 +1,6 @@
 package project.view;
 
+// IMPORTS
 import project.model.Answer;
 import project.model.Question;
 import project.model.Stack;
@@ -9,6 +10,9 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase Main que permite compilar desdel método estático main() y ejecutar el proyecto
+ */
 public class Main {
   public static Stack currentStack = new Stack();
 
@@ -24,6 +28,9 @@ public class Main {
     });
   }
 
+  /**
+   * Método de clase que construye un stack de prueba para operar sobre él
+   */
   public static void stackBuilder() {
     User user1 = new User("Pepsi", "pa$$");
     User user2 = new User("Coca Cola", "12345");

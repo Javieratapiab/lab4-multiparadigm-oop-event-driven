@@ -1,8 +1,8 @@
 
 package project.view;
 
+// IMPORTS
 import project.model.Label;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -15,16 +15,27 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que construye un JPanel e implementa la clase ListSelectionListener para seleccionar etiquetas
+ */
 class NewQuestionView extends JPanel implements ListSelectionListener {
+  // Constantes
   String SUCCESS_MESSAGE = "La pregunta ha sido creada exitosamente.";
   String LOGIN_FAILURE_MESSAGE = "¡No te encuentras logueado!";
   String FAILURE_MESSAGE = "La pregunta no ha podido ser creada. Inténtalo nuevamente.";
+
+  // Componentes UI
   JTextField titleField = new JTextField();
   JTextField contentField = new JTextField();
   List<String> labels = new ArrayList<String>();
   JList labelsList;
+
+  // Variables
   GridBagConstraints gbc = new GridBagConstraints();
 
+  /**
+   * Constructor de vista para un nueva pregunta
+   */
   public NewQuestionView() {
     buildGrid();
     buildNewQuestionForm();
@@ -32,6 +43,9 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
     setBackground(Color.white);
   }
 
+  /**
+   * Método de instancia privado que construye la grilla principal del panel
+   */
   private void buildGrid() {
     setLayout(new GridBagLayout());
     gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -39,6 +53,9 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
     setBounds(300, 90, 500, 300);
   }
 
+  /**
+   * Método de instancia privado que construye el formulario de pregunta
+   */
   private void buildNewQuestionForm() {
     JLabel title = new JLabel("Nueva pregunta");
     title.setFont(new Font("Merlo", Font.BOLD, 15));
@@ -62,6 +79,9 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
     buildLabelsList();
   }
 
+  /**
+   * Métoodo de instancia privado que construye un selector de etiquetas para seleccionar
+   */
   private void buildLabelsList() {
     JLabel labelsLabel = new JLabel("Etiquetas");
     for(Label label: Main.currentStack.getLabels()) {
@@ -75,6 +95,9 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
     add(new JScrollPane(labelsList), gbc);
   }
 
+  /**
+   * Método de instancia privado que permite construir el botón de pregunta
+   */
   private void buildAskButton() {
     JButton newQuestionButton = new JButton("Crear");
     // Botón crear pregunta
@@ -87,6 +110,10 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
     add(newQuestionButton, gbc);
   }
 
+  /**
+   * Método de instancia privado que ejecuta el método ask del stack
+   * y muestras mensajes de éxito o fracaso despendiendo de la respuesta desde el modelo
+   */
   private void setAskAction() {
     String title = titleField.getText();
     String content = contentField.getText();

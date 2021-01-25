@@ -1,11 +1,16 @@
 package project.view;
 
+// IMPORTS
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+/**
+ * Clase pública que representa la vista principal del programa.
+ */
 public class MainView {
   // UI components
   private JFrame frame;
@@ -15,15 +20,20 @@ public class MainView {
   JPanel registerPanel = new JPanel();
   JPanel newQuestionPanel = new JPanel();
   JPanel questionDetailPanel = new JPanel();
+  JPanel userQuestionsPanel = new JPanel();
   JButton backButton = new JButton("Volver");
 
-  // Card layout
-  CardLayout cl;
+  // Constantes
+  String NOT_LOGGED_MESSAGE = "No puedes ir a esta vista, debes loguearte. Inténtalo nuevamente";
 
   // Variables
   QuestionsModelTable questionsModel;
   JTable table;
+  CardLayout cl;
 
+  /**
+   * Constructor de la vista principal
+   */
   public MainView() {
     frame = new JFrame("Stackoverflow");
     cl = new CardLayout();
@@ -37,21 +47,27 @@ public class MainView {
     buildJFrame();
   }
 
-  public void setWelcomeMessage() {
+  /**
+   * Método de instacia privado que renderiza mensaje de bienvenida al usuario (Guest o usuario logueado)
+   */
+  private void setWelcomeMessage() {
     JPanel welcomePanel = new JPanel();
     if (Main.currentStack.getLoggedUser() != null) {
       JLabel title = new JLabel("Bienvenido: " + Main.currentStack.getLoggedUser().getName());
-      title.setFont(new Font("Inconsolata", Font.BOLD, 25));
+      title.setFont(new Font("Merlo", Font.BOLD, 25));
       welcomePanel.add(title, BorderLayout.CENTER);
     } else {
-      JLabel title = new JLabel("Bienvenido Usuario Guest ");
-      title.setFont(new Font("Inconsolata", Font.BOLD, 25));
+      JLabel title = new JLabel("Bienvenido Guest");
+      title.setFont(new Font("Merlo", Font.BOLD, 25));
       welcomePanel.add(title, BorderLayout.CENTER);
     }
     welcomePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
     mainPanel.add(welcomePanel, BorderLayout.LINE_START);
   }
 
+  /**
+   * Método de instancia privado que construye el JFrame principal (vista principal)
+   */
   private void buildJFrame() {
     frame.add(panelContainer);
     frame.setTitle("StackOverflow");
@@ -63,6 +79,9 @@ public class MainView {
     frame.setVisible(true);
   }
 
+  /**
+   * Método de instancia privado que permite reconstruir la vista principal (refresh)
+   */
   private void rebuildMainPanel() {
     cl.removeLayoutComponent(mainPanel);
     mainPanel = new JPanel();
@@ -71,12 +90,17 @@ public class MainView {
     cl.show(panelContainer, "2");
   }
 
+  /**
+   * Método de instancia privado que crea un botón de login
+   * @return Retorna JButton de Login, se agrega listener para mostrar panel de login
+   */
   private JButton setLoginButton() {
     JButton loginButton = new JButton("Login");
     loginButton.setFont(new Font("Merlo", Font.BOLD, 15));
-    loginButton.setSize(new Dimension(80, 50));
-    loginButton.setBackground(Color.blue);
-    loginButton.setOpaque(false);
+    loginButton.setSize(new Dimension(60, 50));
+    loginButton.setBackground(Color.green);
+    loginButton.setBorderPainted(false);
+    loginButton.setOpaque(true);
     loginButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -90,10 +114,17 @@ public class MainView {
     return loginButton;
   }
 
+  /**
+   * Método de instancia privado que crea un botón de registro
+   * @return Retorna JButton de Register, se agrega listener para mostrar panel de registro
+   */
   private JButton setRegisterButton() {
     JButton registerButton = new JButton("Registrarse");
     registerButton.setFont(new Font("Merlo", Font.PLAIN, 16));
-    registerButton.setSize(new Dimension(100, 50));
+    registerButton.setSize(new Dimension(80, 50));
+    registerButton.setBackground(Color.LIGHT_GRAY);
+    registerButton.setBorderPainted(false);
+    registerButton.setOpaque(true);
     registerButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -108,6 +139,10 @@ public class MainView {
     return registerButton;
   }
 
+  /**
+   * Método de instancia privado que crea un botón de logout
+   * @return Retorna JButton de Logout, se agrega listener para mostrar diálogo (modal) para desloguearse
+   */
   private JButton setLogoutButton() {
     JButton logoutButton = new JButton("Logout");
     logoutButton.setFont(new Font("Merlo", Font.PLAIN, 16));
@@ -124,33 +159,74 @@ public class MainView {
     return logoutButton;
   }
 
+
+  /**
+   * Método de instancia privado que crea un botón de aceptar
+   * @return Retorna JButton de Accept, se agrega listener para mostrar panel de preguntas.
+   */
+  private JButton setAcceptButton() {
+    JButton acceptButton = new JButton("Aceptar pregunta");
+    acceptButton.setFont(new Font("Merlo", Font.PLAIN, 16));
+    acceptButton.setSize(new Dimension(100, 50));
+    acceptButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (Main.currentStack.getLoggedUser() == null) {
+          JOptionPane.showMessageDialog(null, NOT_LOGGED_MESSAGE, null, JOptionPane.ERROR_MESSAGE);
+          return;
+        } else {
+          UserQuestionsDetailView userQuestionsView = new UserQuestionsDetailView();
+          userQuestionsPanel = userQuestionsView;
+          userQuestionsPanel.add(backButton, BorderLayout.AFTER_LAST_LINE);
+          panelContainer.add(userQuestionsPanel, "7");
+          cl.show(panelContainer, "7");
+        }
+      }
+    });
+
+    return acceptButton;
+  }
+
+  /**
+   * Método de instancia privado que crea un botón de nueva pregunta
+   * @return Retorna JButton de Nueva pregunta, se agrega listener para mostrar panel (form) de una nueva pregunta
+   */
   private JButton setNewQuestionButton() {
     JButton newQuestionButton = new JButton("Nueva pregunta (+)");
     newQuestionButton.setFont(new Font("Merlo", Font.BOLD, 15));
     newQuestionButton.setSize(new Dimension(80, 50));
-    newQuestionButton.setBackground(Color.blue);
-    newQuestionButton.setOpaque(false);
     newQuestionButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        NewQuestionView newQuestionView = new NewQuestionView();
-        newQuestionPanel = newQuestionView;
-        newQuestionPanel.add(backButton);
-        panelContainer.add(newQuestionPanel, "5");
-        cl.show(panelContainer, "5");
+        if (Main.currentStack.getLoggedUser() == null) {
+          JOptionPane.showMessageDialog(null, NOT_LOGGED_MESSAGE, null, JOptionPane.ERROR_MESSAGE);
+          return;
+        } else {
+          NewQuestionView newQuestionView = new NewQuestionView();
+          newQuestionPanel = newQuestionView;
+          newQuestionPanel.add(backButton);
+          panelContainer.add(newQuestionPanel, "5");
+          cl.show(panelContainer, "5");
+        }
       }
     });
     return newQuestionButton;
   }
 
-  public void buildMainPanel() {
+  /**
+   * Método de instancia privado que construye secciones de la vista principales
+   */
+  private void buildMainPanel() {
     mainPanel.setLayout(new GridLayout(3, 2));
     setWelcomeMessage();
     setAuthPanel();
     setQuestionsTable();
   }
 
-  public void buildBackButton() {
+  /**
+   * Método de instancia privado que setea el botón Volver
+   */
+  private void buildBackButton() {
     backButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -159,12 +235,17 @@ public class MainView {
     });
   }
 
-  public void setAuthPanel() {
+  /**
+   * Método de instancia privado que construye la sección de botones para usuario logueado y no logueado
+   */
+  private void setAuthPanel() {
     JPanel tempPanel = new JPanel();
     tempPanel.setLayout(new BoxLayout(tempPanel, BoxLayout.Y_AXIS));
     if (Main.currentStack.getLoggedUser() != null) {
       JButton logoutButton = setLogoutButton();
       tempPanel.add(logoutButton, BorderLayout.WEST);
+      JButton acceptButton = setAcceptButton();
+      tempPanel.add(acceptButton, BorderLayout.WEST);
       JButton newQuestionButton = setNewQuestionButton();
       tempPanel.add(newQuestionButton, BorderLayout.WEST);
     } else {
@@ -179,7 +260,10 @@ public class MainView {
     mainPanel.add(tempPanel, BorderLayout.WEST);
   }
 
-  public void setQuestionsTable() {
+  /**
+   * Método de instancia privado que construye la tabla de preguntas de la vista principal
+   */
+  private void setQuestionsTable() {
     questionsModel = new QuestionsModelTable();
     table = new JTable();
     table.setModel(questionsModel);
