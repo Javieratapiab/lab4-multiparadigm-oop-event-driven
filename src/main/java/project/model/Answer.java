@@ -1,4 +1,4 @@
-package model;
+package project.model;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 

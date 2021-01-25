@@ -20,9 +20,5 @@ test {
 }
 
 application {
-    mainClass.set('model.Menu')
-}
-
-run {
-    standardInput = System.in
+    mainClass.set('project.view.Main')
 }

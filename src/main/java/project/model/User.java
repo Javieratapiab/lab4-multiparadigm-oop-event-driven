@@ -1,4 +1,4 @@
-package model;
+package project.model;
 
 /**
  * Clase que representa un usuario que se situará dentro de un stack.
@@ -11,7 +11,7 @@ public class User {
   private int reputation;
   private int tempReputation;
 
-  User(String name, String password) {
+  public User(String name, String password) {
     this.name = name;
     this.password = password;
     this.reputation = 30; // Se entrega por defecto esta cantidad para operar sobre ella

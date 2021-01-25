@@ -1,4 +1,4 @@
-package model;
+package project.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,8 @@ public class Question {
   private String status;
   private final List<Answer> answers;
   private final List<Label> labels;
-  private List<Reward> rewards;
 
-  Question(User author, String title, String content) {
+  public Question(User author, String title, String content) {
     this.id = count.incrementAndGet();
     this.author = author;
     this.title = title;
@@ -32,8 +31,15 @@ public class Question {
     this.votes = 0;
     this.status = "Abierta";
     this.answers = new ArrayList<>();
-    this.rewards = new ArrayList<>();
     this.labels = new ArrayList<>();
+  }
+
+  /**
+   * Método de instancia (getter) que retorna el id de una pregunta
+   * @return Id de una pregunta
+   */
+  public int getId() {
+    return id;
   }
 
   /**
@@ -42,6 +48,38 @@ public class Question {
    */
   public User getAuthor() {
     return author;
+  }
+
+  /**
+   * Método de instancia (getter) que retorna título de una pregunta
+   * @return Título de una pregunta
+   */
+  public String getTitle() {
+    return title;
+  }
+
+  /**
+   * Método de instancia (getter) que retorna un contenido de una pregunta
+   * @return Contenido de una pregunta
+   */
+  public String getContent() {
+    return content;
+  }
+
+  /**
+   * Método de instancia (getter) que retorna fecha de publicación de una pregunta
+   * @return Fecha de publicación de una pregunta
+   */
+  public Date getPublicationDate() {
+    return publicationDate;
+  }
+
+  /**
+   * Método de instancia (getter) que retorna cantidad de votos de una pregunta
+   * @return Cantidad de votos de una pregunta
+   */
+  public int getVotes() {
+    return votes;
   }
 
   /**
@@ -61,27 +99,19 @@ public class Question {
   }
 
   /**
-   * Método de instancia (setter) que permite modificar lista de recompensas asociada
-   * @param newRewards Nuevas recompensas asociadas a una pregunta.
-   */
-  public void setRewards(List<Reward> newRewards) {
-    rewards = newRewards;
-  }
-
-  /**
-   * Método de instancia (getter) que retorna lista de recompensas asociadas a una pregunta
-   * @return Lista de recompensas.
-   */
-  public List<Reward> getRewards() {
-    return rewards;
-  }
-
-  /**
    * Método de instancia (getter) que retorna lista de respuestas asociadas a una pregunta
    * @return Retorna una lista de respuestas asociadas
    */
   public List<Answer> getAnswers() {
     return answers;
+  }
+
+  /**
+   * Método de instancia (getter) que retorna lista de etiquetas asociadas a una pregunta
+   * @return Retorna una lista de etiquetas asociadas
+   */
+  public List<Label> getLabels() {
+    return labels;
   }
 
   /**
@@ -98,14 +128,6 @@ public class Question {
    */
   public void addAnswer(Answer answer) {
     answers.add(answer);
-  }
-
-  /**
-   * Método de instancia que agrega una recompensa a una lista de recompensas asociadas a una pregunta
-   * @param reward Recompensa a agrega en lista de recompensas
-   */
-  public void addReward(Reward reward) {
-    rewards.add(reward);
   }
 
   /**
@@ -133,7 +155,6 @@ public class Question {
             ", status='" + status + '\'' +
             ", answers=" + answers +
             ", labels=" + labels +
-            ", rewards=" + rewards +
             '}';
   }
 }

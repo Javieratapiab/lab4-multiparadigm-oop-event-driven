@@ -1,4 +1,4 @@
-package model;
+package project.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +11,18 @@ public class Stack implements Auth {
   private User userLogged;
   private List<User> users;
   private List<Question> questions;
-  private final List<Label> labels;
+  private List<Label> labels;
 
-  Stack() {
+  public Stack() {
     this.userLogged = null;
     this.users = new ArrayList<>();
     this.questions = new ArrayList<>();
     this.labels = new ArrayList<>();
   }
 
-  Stack(List<User> users,
-        List<Question> questions,
-        List<Label> labels) {
+  public Stack(List<User> users,
+               List<Question> questions,
+               List<Label> labels) {
     this.userLogged = null;
     this.users = users;
     this.questions = questions;
@@ -197,23 +197,6 @@ public class Stack implements Auth {
   }
 
   /**
-   * Metodo de instancia que permite dar una recompensa a una pregunta y permite calcular las reputaciones asociadas.
-   * @param question Pregunta que se busca recompensar.
-   * @param rewardQuantity Cantidad de recompensa ofrecida.
-   * @return boolean Retorna un booleano true si la operación fue realizada con éxito, de lo contrario, false.
-   */
-  public boolean reward(Question question, int rewardQuantity) {
-    if (userLogged == null) return false;
-    if (question.getStatus().equals("Cerrada")) return false;
-    boolean validatedReputation = userLogged.validateReputation(rewardQuantity);
-    if (!validatedReputation) return false;
-    userLogged.addDebtReputation(rewardQuantity);
-    Reward reward = new Reward(rewardQuantity, userLogged);
-    question.addReward(reward);
-    return true;
-  }
-
-  /**
    * Método de instancia que permite aceptar una respuesta, cambiar estados de pregunta y respuesta y, adicionalmente,
    * resolver las recompensas asociadas.
    * @param question Pregunta que cambiará su estado a cerrada puesto que una respuesta es aceptada.
@@ -226,10 +209,6 @@ public class Stack implements Auth {
     answer.setAcceptationStatus("Sí");
     userLogged.addOrSubstractReputation(2);
     answer.getAuthor().addOrSubstractReputation(15);
-    for(Reward reward : question.getRewards()) {
-      reward.getUser().discountReputation(reward.getQuantity());
-    }
-    question.setRewards(new ArrayList<>());
     return true;
   }
 
@@ -303,6 +282,18 @@ public class Stack implements Auth {
       }
     }
     return result;
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
+  }
+
+  public void setQuestions(List<Question> questions) {
+    this.questions = questions;
+  }
+
+  public void setLabels(List<Label> labels) {
+    this.labels = labels;
   }
 
   /**

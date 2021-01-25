@@ -1,15 +1,15 @@
-package model;
+package project.model;
 
 /**
  * Clase que representa una etiqueta que se situará dentro de un stack.
  * Cada etiqueta queda determinada por nombre (único) y una descripción.
  * Tipo de relaciones: agregación (respuestas, etiquetas y recompensas) y asociación (usuario).
  */
-class Label {
+public class Label {
   private final String name;
   private final String description;
 
-  Label(String name, String description) {
+  public Label(String name, String description) {
     this.name = name;
     this.description = description;
   }

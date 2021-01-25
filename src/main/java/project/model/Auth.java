@@ -1,4 +1,4 @@
-package model;
+package project.model;
 
 /**
  * Interface que maneja la lógica de una abstracción de autenticación

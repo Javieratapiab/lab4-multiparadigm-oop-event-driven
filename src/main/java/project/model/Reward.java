@@ -1,4 +1,4 @@
-package model;
+package project.model;
 
 /**
  * Clase que representa una recompensa que se situará dentro de una pregunta en un stack.
