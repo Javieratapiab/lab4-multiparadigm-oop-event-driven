@@ -3,12 +3,10 @@ package project.view;
 import project.model.Question;
 
 import javax.swing.table.AbstractTableModel;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 class QuestionsModelTable extends AbstractTableModel {
   private final List<Question> questions;
-  SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
   private final String[] cols = {
           "ID",
           "Autor",
@@ -50,7 +48,7 @@ class QuestionsModelTable extends AbstractTableModel {
     } else if (columnIndex == 3) {
       return questions.get(rowIndex).getContent();
     } else if (columnIndex == 4) {
-      return format.format(questions.get(rowIndex).getPublicationDate());
+      return questions.get(rowIndex).publicationDateFormat();
     } else if (columnIndex == 5) {
       return questions.get(rowIndex).getVotes();
     } else if (columnIndex == 6) {

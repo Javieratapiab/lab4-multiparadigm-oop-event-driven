@@ -1,4 +1,5 @@
 package project.model;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,11 +27,35 @@ public class Answer {
   }
 
   /**
+   * Método de instancia (getter) que retorna el id de una respuesta
+   * @return Id de una respuesta
+   */
+  public int getId() {
+    return id;
+  }
+
+  /**
    * Método de instancia (getter) que retorna el autor de una respuesta
    * @return User, autor de una respuesta
    */
   public User getAuthor() {
     return author;
+  }
+
+  /**
+   * Método de instancia (getter) que retorna un contenido de una respuesta
+   * @return Contenido de una respuesta
+   */
+  public String getContent() {
+    return content;
+  }
+
+  /**
+   * Método de instancia (getter) que retorna cantidad de votos de una respuesta
+   * @return Cantidad de votos de una respuesta
+   */
+  public int getVotes() {
+    return votes;
   }
 
   /**
@@ -47,6 +72,23 @@ public class Answer {
    */
   public void addOrSubstractVotes(int vote) {
     votes += vote;
+  }
+
+  /**
+   * Método de instancia que permite retornar fecha de publicación con formato
+   * @return DateFormat
+   **/
+  public String publicationDateFormat() {
+    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+    return(format.format(publicationDate));
+  }
+
+  /**
+   * Método de instancia (getter) que retorna el estado de aceptación de una respuesta
+   * @return Estado de una respuesta
+   */
+  public String getStatus() {
+    return acceptationStatus;
   }
 
   /**

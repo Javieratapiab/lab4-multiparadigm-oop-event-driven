@@ -13,7 +13,8 @@ public class MainView {
   private JPanel mainPanel = new JPanel();
   JPanel loginPanel = new JPanel();
   JPanel registerPanel = new JPanel();
-  JDialog logoutDialog = new JDialog();
+  JPanel newQuestionPanel = new JPanel();
+  JPanel questionDetailPanel = new JPanel();
   JButton backButton = new JButton("Volver");
 
   // Card layout
@@ -48,7 +49,6 @@ public class MainView {
       welcomePanel.add(title, BorderLayout.CENTER);
     }
     welcomePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-    welcomePanel.setBackground(Color.white);
     mainPanel.add(welcomePanel, BorderLayout.LINE_START);
   }
 
@@ -61,6 +61,14 @@ public class MainView {
     frame.pack();
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
+  }
+
+  private void rebuildMainPanel() {
+    cl.removeLayoutComponent(mainPanel);
+    mainPanel = new JPanel();
+    buildMainPanel();
+    panelContainer.add(mainPanel, "2");
+    cl.show(panelContainer, "2");
   }
 
   private JButton setLoginButton() {
@@ -108,15 +116,31 @@ public class MainView {
       @Override
       public void actionPerformed(ActionEvent e) {
         LogoutDialog logout = new LogoutDialog();
-
-        logoutPanel = logout;
-        logoutPanel.add(backButton);
-        panelContainer.add(logoutPanel, "5");
-        cl.show(panelContainer, "5");
+        logout.setModal(true);
+        rebuildMainPanel();
       }
     });
 
     return logoutButton;
+  }
+
+  private JButton setNewQuestionButton() {
+    JButton newQuestionButton = new JButton("Nueva pregunta (+)");
+    newQuestionButton.setFont(new Font("Merlo", Font.BOLD, 15));
+    newQuestionButton.setSize(new Dimension(80, 50));
+    newQuestionButton.setBackground(Color.blue);
+    newQuestionButton.setOpaque(false);
+    newQuestionButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        NewQuestionView newQuestionView = new NewQuestionView();
+        newQuestionPanel = newQuestionView;
+        newQuestionPanel.add(backButton);
+        panelContainer.add(newQuestionPanel, "5");
+        cl.show(panelContainer, "5");
+      }
+    });
+    return newQuestionButton;
   }
 
   public void buildMainPanel() {
@@ -130,11 +154,7 @@ public class MainView {
     backButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        cl.removeLayoutComponent(mainPanel);
-        mainPanel = new JPanel();
-        buildMainPanel();
-        panelContainer.add(mainPanel, "2");
-        cl.show(panelContainer, "2");
+        rebuildMainPanel();
       }
     });
   }
@@ -145,6 +165,8 @@ public class MainView {
     if (Main.currentStack.getLoggedUser() != null) {
       JButton logoutButton = setLogoutButton();
       tempPanel.add(logoutButton, BorderLayout.WEST);
+      JButton newQuestionButton = setNewQuestionButton();
+      tempPanel.add(newQuestionButton, BorderLayout.WEST);
     } else {
       JButton loginButton = setLoginButton();
       JButton registerButton = setRegisterButton();
@@ -154,7 +176,6 @@ public class MainView {
       tempPanel.add(registerButton, BorderLayout.WEST);
     }
     tempPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-    tempPanel.setBackground(Color.white);
     mainPanel.add(tempPanel, BorderLayout.WEST);
   }
 
@@ -164,6 +185,21 @@ public class MainView {
     table.setModel(questionsModel);
     table.setFont(new Font("Merlo",Font.PLAIN,14));
     table.setBounds(30, 250, 1300, 700);
+    table.addMouseListener(new java.awt.event.MouseAdapter() {
+      @Override
+      public void mouseClicked(java.awt.event.MouseEvent e) {
+        int row = table.rowAtPoint(e.getPoint());
+        int col = table.columnAtPoint(e.getPoint());
+        if (row >= 0 && col >= 0) {
+          int questionId = (int) table.getValueAt(row, 0); // Id de pregunta
+          QuestionDetailView questionDetailView = new QuestionDetailView(questionId);
+          questionDetailPanel = questionDetailView;
+          questionDetailPanel.add(backButton);
+          panelContainer.add(questionDetailPanel, "6");
+          cl.show(panelContainer, "6");
+        }
+      }
+    });
     JScrollPane sp = new JScrollPane(table);
     sp.setPreferredSize(new Dimension(800, 800));
     mainPanel.add(sp, BorderLayout.EAST);

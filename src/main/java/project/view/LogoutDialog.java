@@ -10,6 +10,9 @@ class LogoutDialog extends JDialog {
   String SUCCESS_MESSAGE = "El usuario ha sido deslogueado exitosamente.";
   String FAILURE_MESSAGE = "El usuario no ha podido ser deslogueado. Inténtalo nuevamente.";
 
+  /**
+   * Constructor de la vista (JDialog)
+   */
   public LogoutDialog() {
     boolean logoutSuccess = Main.currentStack.logout();
     if (logoutSuccess) {

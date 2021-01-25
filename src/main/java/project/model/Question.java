@@ -1,8 +1,9 @@
 package project.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -136,6 +137,15 @@ public class Question {
    */
   public void addOrSubstractVotes(int vote) {
     votes += vote;
+  }
+
+  /**
+   * Método de instancia que permite retornar fecha de publicación con formato
+   * @return DateFormat
+   **/
+  public String publicationDateFormat() {
+    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+    return(format.format(publicationDate));
   }
 
   /**
