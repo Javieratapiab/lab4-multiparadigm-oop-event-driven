@@ -1,5 +1,7 @@
 
-package project.view;
+package project.view.auth;
+
+import project.view.Main;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,7 +14,7 @@ import java.awt.event.ActionListener;
 /**
  * Clase que genera un JPanel con un form de register embebido
  */
-class RegisterView extends JPanel {
+public class RegisterView extends JPanel {
   String SUCCESS_MESSAGE = "El usuario ha sido registrado exitosamente.";
   String FAILURE_MESSAGE = "El usuario que tratas de registrar ya existe";
   JTextField usernameField = new JTextField();
@@ -26,7 +28,6 @@ class RegisterView extends JPanel {
     buildGrid();
     buildRegisterForm();
     buildRegisterButton();
-    setBackground(Color.white);
   }
 
   /**
@@ -44,7 +45,7 @@ class RegisterView extends JPanel {
    */
   private void buildRegisterForm() {
     JLabel title = new JLabel("Registro de usuario");
-    title.setFont(new Font("Merlo", Font.BOLD, 15));
+    title.setFont(new Font(null, Font.BOLD, 15));
     title.setSize(300, 30);
     Border border = title.getBorder();
     Border margin = new EmptyBorder(0,0,30,0);
@@ -68,7 +69,6 @@ class RegisterView extends JPanel {
    */
   private void buildRegisterButton() {
     JButton registerButton = new JButton("Registrarse");
-    // Botón login
     registerButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {

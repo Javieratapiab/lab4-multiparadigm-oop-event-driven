@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -22,17 +23,30 @@ public class Question {
   private String status;
   private final List<Answer> answers;
   private final List<Label> labels;
+  Random rnd;
+  Date    dt;
+  long    ms;
 
   public Question(User author, String title, String content) {
     this.id = count.incrementAndGet();
     this.author = author;
     this.title = title;
     this.content = content;
-    this.publicationDate = new Date();
+    this.publicationDate = generateRandomDate();
     this.votes = 0;
     this.status = "Abierta";
     this.answers = new ArrayList<>();
     this.labels = new ArrayList<>();
+  }
+
+  /**
+   * Método de instancia privado que permite generar una fecha de publicación aleatoria
+   * @return Retorna una fecha aleatoria
+   */
+  private Date generateRandomDate() {
+    rnd = new Random();
+    ms = -946771200000L + (Math.abs(rnd.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000));
+    return (new Date(ms));
   }
 
   /**

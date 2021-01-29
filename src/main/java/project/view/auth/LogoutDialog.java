@@ -1,13 +1,13 @@
 
-package project.view;
+package project.view.auth;
 
-// Imports
+import project.view.Main;
 import javax.swing.*;
 
 /**
  * Clase que genera un JDialog al desloguear un usuario
  */
-class LogoutDialog extends JDialog {
+public class LogoutDialog extends JDialog {
   String SUCCESS_MESSAGE = "El usuario ha sido deslogueado exitosamente.";
   String FAILURE_MESSAGE = "El usuario no ha podido ser deslogueado. Inténtalo nuevamente.";
 

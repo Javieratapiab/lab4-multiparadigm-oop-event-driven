@@ -1,4 +1,4 @@
-package project.view;
+package project.view.answer;
 
 // IMPORTS
 import project.model.Answer;
@@ -11,7 +11,7 @@ import java.util.List;
  * Clase que hereda de la clase abstracta Table model y permite la creación
  * de una tabla referenciada a un modelo u clase.
  */
-class AnswersModelTable extends AbstractTableModel {
+public class AnswersModelTable extends AbstractTableModel {
   private final List<Answer> answers;
   private final String[] cols = {
           "ID",

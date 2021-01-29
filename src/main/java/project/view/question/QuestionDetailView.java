@@ -1,36 +1,29 @@
 
-package project.view;
+package project.view.question;
 
-// IMPORTS
 import project.model.Label;
 import project.model.Question;
+import project.view.Main;
+import project.view.answer.AnswersModelTable;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Clase que hereda de JPanel y que muestra un panel con el detalle de una pregunta y sus asociaciones
  */
-class QuestionDetailView extends JPanel {
-  // Componentes
-  AnswersModelTable answersModel;
-  JTextField answerContentField = new JTextField();
-  GridBagConstraints gbc = new GridBagConstraints();
-  QuestionsModelTable questionsModel;
-  JPanel answerPanel = new JPanel();
-  JTable table;
-
-  // Variables
-  Question selectedQuestion;
-
-  // Constantes
+public class QuestionDetailView extends JPanel {
   String SUCCESS_MESSAGE = "La respuesta ha sido creada exitosamente.";
   String LOGIN_FAILURE_MESSAGE = "¡No te encuentras logueado!";
   String FAILURE_MESSAGE = "La respuesta no ha podido ser creada. Inténtalo nuevamente.";
+  Question selectedQuestion;
+  AnswersModelTable answersModel;
+  JTextField answerContentField = new JTextField();
+  JTable answersTable;
+  JPanel answerPanel = new JPanel();
 
   /**
    * Constructor de la vista de detalle de una pregunta en particular, mostrando sus respuestas asociadas
@@ -44,7 +37,6 @@ class QuestionDetailView extends JPanel {
       }
     }
     buildView();
-    setBackground(Color.white);
   }
 
   /**
@@ -61,8 +53,8 @@ class QuestionDetailView extends JPanel {
    * Método de instancia privado que permite construir la grilla de la vista del detalle de una pregunta
    */
   private void buildGrid() {
-    setLayout(new GridLayout(4, 1));
-    setBounds(300, 90, 1300, 700);
+    setLayout(new GridLayout(4,1));
+    setBounds(300, 90, 1300, 800);
   }
 
   /**
@@ -70,16 +62,15 @@ class QuestionDetailView extends JPanel {
    */
   private void buildAnswersTable() {
     answersModel = new AnswersModelTable(selectedQuestion);
-    table = new JTable();
-    table.setModel(answersModel);
-    table.setFont(new Font("Merlo",Font.PLAIN,14));
-    table.setBounds(30, 250, 1300, 700);
-    Border answerBorder = table.getBorder();
+    answersTable = new JTable();
+    answersTable.setModel(answersModel);
+    Border answerBorder = answersTable.getBorder();
     Border answerMargin = new EmptyBorder(20,20,10,20);
-    table.setBorder(new CompoundBorder(answerBorder, answerMargin));
-    table.setBorder(new CompoundBorder(answerBorder, answerMargin));
-    JScrollPane sp = new JScrollPane(table);
+    answersTable.setBorder(new CompoundBorder(answerBorder, answerMargin));
+    JScrollPane sp = new JScrollPane(answersTable);
     sp.setPreferredSize(new Dimension(800, 800));
+    sp.setBorder(BorderFactory.createTitledBorder(null, "Respuestas", TitledBorder.CENTER,
+      TitledBorder.TOP, new Font("Monospaced", Font.PLAIN, 22)));
     add(sp, BorderLayout.CENTER);
   }
 
@@ -87,38 +78,38 @@ class QuestionDetailView extends JPanel {
    * Método de instancia privado que se encarga de construir los componentes de los detalles de una respuesta
    */
   private void buildNewAnswerPanel() {
+    ImageIcon newAnswerIcon = new ImageIcon(this.getClass().getResource("/new-answer.png"));
     answerPanel = new JPanel();
+    answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.Y_AXIS));
+    // Title
     JLabel title = new JLabel("Nueva respuesta");
-    title.setFont(new Font("Merlo", Font.BOLD, 15));
-    title.setSize(20, 30);
+    title.setIcon(newAnswerIcon);
+    title.setFont(new Font(null, Font.BOLD, 15));
     Border border = title.getBorder();
     Border margin = new EmptyBorder(0,0,10,0);
     title.setBorder(new CompoundBorder(border, margin));
+    title.setAlignmentX(Component.LEFT_ALIGNMENT);
     answerPanel.add(title);
 
-    // Content
-    JLabel contentLabel = new JLabel("Tu respuesta");
+    // Answer content
+    JLabel contentLabel = new JLabel("Tu respuesta: ");
     contentLabel.setPreferredSize(new Dimension(30, 15));
-    answerContentField.setPreferredSize(new Dimension(30, 15));
+    contentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
     answerPanel.add(contentLabel);
+    answerContentField.setAlignmentX(Component.LEFT_ALIGNMENT);
     answerPanel.add(answerContentField);
 
     // Answer button
     JButton newAnswerButton = new JButton("Crear respuesta");
-    newAnswerButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        setAnswerAction();
-      }
-    });
+    newAnswerButton.addActionListener(e -> setAnswerAction());
 
+    newAnswerButton.setAlignmentX(Component.LEFT_ALIGNMENT);
     answerPanel.add(newAnswerButton);
-    answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.Y_AXIS));
     Border answerBorder = answerPanel.getBorder();
     Border answerMargin = new EmptyBorder(20,20,10,20);
     answerPanel.setBorder(new CompoundBorder(answerBorder, answerMargin));
     answerPanel.setBorder(new CompoundBorder(answerBorder, answerMargin));
-    add(answerPanel, BorderLayout.CENTER);
+    add(answerPanel, BorderLayout.WEST);
   }
 
   /**
@@ -135,26 +126,26 @@ class QuestionDetailView extends JPanel {
 
     for(Label label : selectedQuestion.getLabels()) {
         JButton labelButton = new JButton(label.getName());
-        labelButton.setFont(new Font("Merlo", Font.PLAIN, 20));
-        labelButton.setContentAreaFilled(false);
+        labelButton.setFont(new Font(null, Font.BOLD, 18));
+        labelButton.putClientProperty("JButton.buttonType","roundRect");
+        labelButton.setForeground(Color.GREEN);
+        labelButton.setBackground(Color.black);
         labelButton.setOpaque(false);
-        labelButton.setForeground(Color.magenta);
-        labelButton.setBackground(Color.lightGray);
-        labelsPills.add(labelButton);
+        labelsPills.add(labelButton, BorderLayout.WEST);
     }
 
     // Define estilos para textos
-    questionTitle.setFont(new Font("Merlo", Font.PLAIN, 30));
-    questionAuthor.setFont(new Font("Merlo", Font.ITALIC, 20));
-    questionPublicationDate.setFont(new Font("Merlo", Font.PLAIN, 20));
-    questionContent.setFont(new Font("Merlo", Font.PLAIN, 20));
+    questionTitle.setFont(new Font(null, Font.PLAIN, 30));
+    questionAuthor.setFont(new Font(null, Font.ITALIC, 20));
+    questionPublicationDate.setFont(new Font(null, Font.PLAIN, 20));
+    questionContent.setFont(new Font(null, Font.PLAIN, 20));
 
     // Agrega componentes a panel de detalle de pregunta
     questionDetailPanel.add(questionTitle);
     questionDetailPanel.add(questionAuthor);
     questionDetailPanel.add(questionPublicationDate);
     questionDetailPanel.add(questionContent);
-    questionDetailPanel.add(labelsPills);
+    questionDetailPanel.add(labelsPills, BorderLayout.WEST);
     Border border = questionDetailPanel.getBorder();
     Border margin = new EmptyBorder(20,20,10,20);
     questionDetailPanel.setBorder(new CompoundBorder(border, margin));
@@ -172,9 +163,7 @@ class QuestionDetailView extends JPanel {
       JOptionPane.showMessageDialog(null, LOGIN_FAILURE_MESSAGE, null, JOptionPane.WARNING_MESSAGE);
       return;
     }
-
     boolean answerSuccess = Main.currentStack.answer(selectedQuestion, content);
-
     if (answerSuccess) {
       JOptionPane.showMessageDialog(null, SUCCESS_MESSAGE);
       answersModel.fireTableDataChanged();

@@ -1,29 +1,31 @@
 package project.view;
 
-// IMPORTS
 import project.model.Answer;
 import project.model.Question;
 import project.model.Stack;
 import project.model.User;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Clase Main que permite compilar desdel método estático main() y ejecutar el proyecto
- */
 public class Main {
   public static Stack currentStack = new Stack();
 
   public static void main(String[] args) throws Exception
 
   {
+    try {
+      UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+      // Do nothing
+    }
+
+    JFrame.setDefaultLookAndFeelDecorated(true);
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
         stackBuilder();
-        MainView mainview = new MainView();
+        new MainView();
       }
     });
   }
@@ -41,6 +43,7 @@ public class Main {
     project.model.Label label1 = new project.model.Label("Java", "Lenguaje de programación");
     project.model.Label label2 = new project.model.Label("Computer science", "Ciencia que estudia a los computadores");
     project.model.Label label3 = new project.model.Label("C#", "Lenguaje de programación");
+    project.model.Label label4 = new project.model.Label("Game development", "Desarrollo de videojuegos");
 
     // Preguntas
     Question question1 = new Question(user3, "¿Qué es un arreglo?",
@@ -60,6 +63,7 @@ public class Main {
     question3.addLabel(label1);
     question3.addLabel(label3);
     question4.addLabel(label2);
+    question5.addLabel(label4);
 
     // Respuestas
     Answer answer1 = new Answer(user1, "Un arreglo es una estructura de dato que se encarga de reservar espacio en memoria para una colección de elementos");
@@ -107,6 +111,7 @@ public class Main {
     labels.add(label1);
     labels.add(label2);
     labels.add(label3);
+    labels.add(label4);
 
     // Se añaden instancias a stack
     currentStack = new Stack(users, questions, labels);

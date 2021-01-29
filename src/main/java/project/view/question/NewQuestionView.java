@@ -1,8 +1,10 @@
 
-package project.view;
+package project.view.question;
 
 // IMPORTS
 import project.model.Label;
+import project.view.Main;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -18,19 +20,14 @@ import java.util.List;
 /**
  * Clase que construye un JPanel e implementa la clase ListSelectionListener para seleccionar etiquetas
  */
-class NewQuestionView extends JPanel implements ListSelectionListener {
-  // Constantes
+public class NewQuestionView extends JPanel implements ListSelectionListener {
   String SUCCESS_MESSAGE = "La pregunta ha sido creada exitosamente.";
   String LOGIN_FAILURE_MESSAGE = "¡No te encuentras logueado!";
   String FAILURE_MESSAGE = "La pregunta no ha podido ser creada. Inténtalo nuevamente.";
-
-  // Componentes UI
   JTextField titleField = new JTextField();
   JTextField contentField = new JTextField();
   List<String> labels = new ArrayList<String>();
   JList labelsList;
-
-  // Variables
   GridBagConstraints gbc = new GridBagConstraints();
 
   /**
@@ -40,7 +37,6 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
     buildGrid();
     buildNewQuestionForm();
     buildAskButton();
-    setBackground(Color.white);
   }
 
   /**
@@ -70,11 +66,13 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
     titleField.setPreferredSize(new Dimension(300, 35));
     add(titleLabel, gbc);
     add(titleField, gbc);
+
     // Content
     JLabel contentLabel = new JLabel("Contenido");
     contentField.setPreferredSize(new Dimension(300, 35));
     add(contentLabel, gbc);
     add(contentField, gbc);
+
     // Labels
     buildLabelsList();
   }
@@ -100,7 +98,6 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
    */
   private void buildAskButton() {
     JButton newQuestionButton = new JButton("Crear");
-    // Botón crear pregunta
     newQuestionButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -126,13 +123,10 @@ class NewQuestionView extends JPanel implements ListSelectionListener {
     }
 
     boolean askSuccess = Main.currentStack.ask(title, content, selectedLabels);
-
-    // Validación login (client side)
     if (Main.currentStack.getLoggedUser() == null) {
       JOptionPane.showMessageDialog(null, LOGIN_FAILURE_MESSAGE, null, JOptionPane.WARNING_MESSAGE);
       return;
     }
-
     if (askSuccess) {
       JOptionPane.showMessageDialog(null, SUCCESS_MESSAGE);
     } else {

@@ -215,6 +215,7 @@ public class Stack implements Auth {
    */
   public boolean answer(Question question, String content) {
     if (userLogged == null) return false;
+    if (question.getStatus() == "Cerrada") return false;
     Answer answer = new Answer(userLogged, content);
     question.addAnswer(answer);
     return true;
@@ -248,17 +249,19 @@ public class Stack implements Auth {
     boolean result;
 
     switch (voteType) {
-      case "UP" -> {
+      case "UP": {
         question.addOrSubstractVotes(1);
         question.getAuthor().addOrSubstractReputation(10);
         result = true;
+        break;
       }
-      case "DOWN" -> {
+      case "DOWN": {
         question.addOrSubstractVotes(-1);
         question.getAuthor().addOrSubstractReputation(-2);
         result = true;
+        break;
       }
-      default -> result = false;
+      default: result = false;
     }
 
     return result;
@@ -275,18 +278,20 @@ public class Stack implements Auth {
     boolean result;
 
     switch (voteType) {
-      case "UP" -> {
+      case "UP": {
         answer.addOrSubstractVotes(1);
         answer.getAuthor().addOrSubstractReputation(10);
         result = true;
+        break;
       }
-      case "DOWN" -> {
+      case "DOWN": {
         answer.addOrSubstractVotes(-1);
         answer.getAuthor().addOrSubstractReputation(-2);
         userLogged.addOrSubstractReputation(-1);
         result = true;
+        break;
       }
-      default -> result = false;
+      default: result = false;
     }
 
     return result;
@@ -303,6 +308,23 @@ public class Stack implements Auth {
     for(Question question : questions) {
       boolean matchAuthor = user.getName().equals(question.getAuthor().getName());
       if (matchAuthor) {
+        result.add(question);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Método de instancia que retorna una lista de preguntas filtradas del stack (que no sean del usuario logueado)
+   * @param user Usuario del que se deben rechazar (reject) sus propias preguntas
+   * @return Lista de preguntas filtradas.
+   */
+  public List<Question> filterQuestionsForVoting(User user) {
+    List <Question> result = new ArrayList<>();
+
+    for(Question question : questions) {
+      boolean matchAuthor = user.getName().equals(question.getAuthor().getName());
+      if (!matchAuthor) {
         result.add(question);
       }
     }

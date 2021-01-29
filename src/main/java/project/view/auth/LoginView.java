@@ -1,6 +1,7 @@
 
-package project.view;
+package project.view.auth;
 
+import project.view.Main;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
 /**
  * Clase que genera un JPanel con un form de login embebido
  */
-class LoginView extends JPanel {
+public class LoginView extends JPanel {
   String SUCCESS_MESSAGE = "El usuario ha sido logueado exitosamente.";
   String FAILURE_MESSAGE = "El usuario que tratas de loguear no se encuentra registrado";
   JTextField usernameField = new JTextField();
@@ -26,7 +27,6 @@ class LoginView extends JPanel {
     buildGrid();
     buildLoginForm();
     buildLoginButton();
-    setBackground(Color.white);
   }
 
   /**
@@ -36,7 +36,7 @@ class LoginView extends JPanel {
     setLayout(new GridBagLayout());
     gbc.gridwidth = GridBagConstraints.REMAINDER;
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    setBounds(300, 90, 500, 300);
+    setBounds(300, 90, 200, 300);
   }
 
   /**
@@ -45,7 +45,7 @@ class LoginView extends JPanel {
   private void buildLoginForm() {
     // Title
     JLabel title = new JLabel("Login de usuario");
-    title.setFont(new Font("Merlo", Font.BOLD, 15));
+    title.setFont(new Font(null, Font.BOLD, 15));
     title.setSize(300, 30);
     Border border = title.getBorder();
     Border margin = new EmptyBorder(0,0,30,0);
